@@ -9,7 +9,7 @@ A Python package for generating AI-assisted navigation instructions and visualiz
 Clone the repo and install the package locally:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/wvh_guide_py.git
+git clone https://github.com/sumershinde22/WVH-Guide.git
 cd wvh_guide_py
 pip install -e .
 ```
