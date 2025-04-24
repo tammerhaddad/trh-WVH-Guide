@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+
+# Installer logs
+pip-log.txt
+
+# Environment files (optional)
+.env
+
+# macOS metadata
+.DS_Store
