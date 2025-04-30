@@ -10,7 +10,9 @@ import time
 import ast
 from typing import List, Tuple
 
-import google.generativeai as genai
+# import google.generativeai as genai
+from openai import OpenAI
+import os
 
 
 class Summarizer:
@@ -21,7 +23,8 @@ class Summarizer:
         model (str): The identifier of the Gemini model to use.
     """
 
-    def __init__(self, api_key: str, model: str) -> None:
+    # def __init__(self, api_key: str, model: str) -> None:
+    def __init__(self) -> None:
         """
         Configure the Generative AI client and store model choice.
 
@@ -33,8 +36,8 @@ class Summarizer:
         Side Effects:
             Calls `genai.configure()` to authenticate all subsequent requests.
         """
-        genai.configure(api_key=api_key)
-        self.model = model
+        # genai.configure(api_key=api_key)
+        # self.model = model
 
     def generate(self, steps: List[str]) -> Tuple[List[str], float]:
         """
@@ -83,9 +86,13 @@ Directions:
         prompt = template.replace("{steps_block}", block)
 
         # 2) Call the LLM
-        model_client = genai.GenerativeModel(self.model)
-        response = model_client.generate_content(prompt)
-        text = response.text.strip()
+        # model_client = genai.GenerativeModel(self.model)
+        # response = model_client.generate_content(prompt)
+        # text = response.text.strip()
+
+        # chatGPT version:
+        text = self.generate_simple_text(prompt)
+        text = text.strip()
 
         # 3) Remove markdown fences if present
         if text.startswith("```") and text.endswith("```"):
@@ -107,3 +114,13 @@ Directions:
             raise ValueError(
                 f"Failed to parse LLM response: {err}\nRaw response was:\n{text}"
             )
+        
+
+    def generate_simple_text(self, text):
+        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+        chat_completion = client.chat.completions.create(
+            messages=[{"role": "user", "content": text}],
+            model='gpt-4o-mini',
+        )
+        res = chat_completion.choices[0].message.content
+        return res

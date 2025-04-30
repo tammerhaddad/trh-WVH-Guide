@@ -70,13 +70,19 @@ def main() -> None:
     # 2) Invoke the core library function
     #    Automatically loads the bundled WVH.json, computes path, summarizes it,
     #    and (unless --no-map) displays the map.
-    run(
+    summary, path = run(
         api_key=args.api_key,
         model=args.model,
         start=args.start,
         goal=args.goal,
         show_map=not args.no_map
     )
+
+    # 3) Print the summary to stdout
+    print("\n".join(summary))
+    # 4) Print the path
+    print("Path:", path)
+
 
 
 if __name__ == "__main__":

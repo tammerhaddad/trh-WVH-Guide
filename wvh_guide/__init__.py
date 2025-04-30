@@ -54,12 +54,13 @@ def run(
     raw_steps, path = navigator.get_directions(start, goal)
 
     # 2) Generate a concise, human-friendly summary via the Summarizer LLM
-    summary, latency = Summarizer(api_key, model).generate(raw_steps)
+    summary, latency = Summarizer().generate(raw_steps)
 
     # 3) Optionally visualize the path on a floorplan
     if show_map:
         visualizer = MapVisualizer(navigator.graph)
         visualizer.highlight_path(path)
         visualizer.show()
+
 
     return summary, path
